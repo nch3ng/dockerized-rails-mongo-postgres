@@ -5,7 +5,7 @@ services:
     container_name: "nlccoc"
     command: rails server -p 3000 -b '0.0.0.0'
     volumes:
-      - ${PWD}/app
+      - ${PWD}/app:${PWD}/app
     ports:
       - "3000:3000"
     depends_on: 
@@ -39,3 +39,5 @@ services:
     ports:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
+volumes: 
+  app:
