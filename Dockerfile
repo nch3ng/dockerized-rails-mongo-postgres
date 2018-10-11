@@ -23,7 +23,7 @@ WORKDIR /var/app
 RUN gem install bundler && bundle install --jobs 20 --retry 5
 # Copy the main application.
 
-COPY . /var/app
+#COPY . /var/app
 
 # Expose port 3000 to the Docker host, so we can access it 
 # from the outside.

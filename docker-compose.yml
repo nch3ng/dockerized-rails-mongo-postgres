@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.2'
 services:
   app:
     # image: boo0330/dockerized-rails-mongo-postgres
@@ -7,8 +7,8 @@ services:
     command: rails server -p 3000 -b '0.0.0.0'
     volumes: 
       - type: bind
-        source: /c/Users/nate/Documents/GitHub/docker-rails
-        target: /vap/app
+        source: ${PWD}
+        target: /var/app
     ports:
       - "3000:3000"
     depends_on: 
@@ -42,5 +42,3 @@ services:
     ports:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
-volumes: 
-  vol-test:
