@@ -10,18 +10,20 @@ RUN apt-get update && apt-get install -y \
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
 # commands.
-RUN mkdir -p /app 
-WORKDIR /app
+RUN mkdir -p /var/app
 
 # Copy the Gemfile as well as the Gemfile.lock and install 
 # the RubyGems. This is a separate step so the dependencies 
 # will be cached unless changes to one of those two files 
 # are made.
-COPY Gemfile Gemfile.lock ./ 
-RUN gem install bundler && bundle install --jobs 20 --retry 5
+COPY Gemfile Gemfile.lock /var/app/
 
+WORKDIR /var/app
+
+RUN gem install bundler && bundle install --jobs 20 --retry 5
 # Copy the main application.
-COPY . ./
+
+COPY . /var/app
 
 # Expose port 3000 to the Docker host, so we can access it 
 # from the outside.
@@ -31,5 +33,5 @@ EXPOSE 3000
 # tell the Rails dev server to bind to all interfaces by 
 # default.
 ENTRYPOINT ["bundle", "exec"]
-RUN rake db:exists && rake db:migrate || rake db:setup
+# RUN rake db:exists && rake db:migrate || rake db:setup
 CMD ["rails", "server", "-b", "0.0.0.0"]
